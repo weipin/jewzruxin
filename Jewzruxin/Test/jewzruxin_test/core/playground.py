@@ -1,0 +1,78 @@
+import base64
+import cgi
+from hashlib import sha1
+import hmac
+import time
+import uuid
+
+import python_digest
+
+from django.conf import settings
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+# Create your views here.
+
+def hello(request):
+    return HttpResponse('Hello World')
+    
+def echo(request):
+    code = int(request.GET.get('code', 200))
+    content = ', '.join(request.GET.getlist('content', ''))
+    encoding = request.GET.get('encoding', None)
+    
+    if encoding is not None:
+        content = content.encode(encoding)
+    response = HttpResponse(content=content, status=code)
+    
+    headers = request.GET.getlist('header', None)    
+    for header in headers:
+        i = header.find(':')
+        if i >= 0:
+            key = header[:i]
+            value = header[i+1:]
+            response[key] = value
+    
+    return response
+
+def dumpmeta(request):
+    str = ''
+    for k, v in request.META.iteritems():
+        str += '%s=%s\r\n' % (k, v)
+    
+    return HttpResponse(str)
+
+@csrf_exempt
+def dumpupload(request):
+    print('###', request.body)
+    return HttpResponse(request.body)
+    
+def _basic_unauthenticated(request):
+    response = HttpResponse('', status=401)
+    response['WWW-Authenticate'] = 'Basic Realm="DEV"'
+    return response    
+    
+def hello_with_basic_auth(request):
+    auth = request.META.get('HTTP_AUTHORIZATION', None)
+    if auth is None:
+        return _basic_unauthenticated(request)
+        
+    try:
+        method, data = auth.split()
+        if 'basic' != method.lower():
+            return _basic_unauthenticated(request)
+        data = base64.b64decode(data).decode('utf-8')
+    except:
+        return _basic_unauthenticated(request)
+    
+    ary = data.split(':', 1)
+    if len(ary) != 2:
+        return _basic_unauthenticated(request)
+
+    username = ary[0]
+    password = ary[1]
+    if username == 'test' and password == '12345':
+        return HttpResponse('Hello World')
+
+    return _basic_unauthenticated(request)

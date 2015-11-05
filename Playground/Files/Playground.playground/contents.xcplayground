@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='osx' display-mode='rendered'>
+    <pages>
+        <page name='Welcome'/>
+        <page name='HTTP Basic'/>
+        <page name='HTTP Intermediate'/>
+        <page name='HTTP Advanced'/>
+        <page name='HTTP Utilties'/>
+    </pages>
+</playground>
