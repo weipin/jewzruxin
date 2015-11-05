@@ -45,11 +45,13 @@ try? HTTPCycle.get(BaseURL + "/core/playground/hello/") {
 /*:
 2. The convenient methods will throw an error immediately if the specified URL is invalid.
 */
-let cycle = try? HTTPCycle.get("") {
-    cycle, error in
-}
-if cycle == nil {
-    print("2. The convenient methods return nil immediately for an invalid URL." )
+do {
+    try HTTPCycle.get("") {
+        cycle, error in
+        // Will never reach here
+    }
+} catch {
+    print("2. The convenience methods return nil immediately for an invalid URL." )
 }
 
 /*:
