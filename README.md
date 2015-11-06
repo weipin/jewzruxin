@@ -4,6 +4,18 @@ Jewzruxin follows the Swift convention and is compatible with the latest version
 
 [ I'd like to point out that I am not a native English speak: likely you will find mistakes in grammar here and there. Please don't give me a hard time for this, and feel free to correct me! ]
 
+HTTP
+----
+Jewzruxin provides extensive HTTP utilities, helping you accomplish HTTP tasks easily and quickly. The resulting code is straightforward and easy to maintain. The routes are designed with MVC and user interface in mind: the `HTTCycle` family classes can be referenced and used individually, making it easy to embed `HTTCycle` into model objects. Options like `solicited`, `explicitlyCanceling`, and "creation option" (`Create`, `Reuse`, or `Replace`) encourage you to build friendly user interface.
+
+Features:
+- Straightforward interfaces make the resulting code easy to read and maintain.
+- Thin wrappers around the NSURLSession family classes, no magic, no black boxes.
+- Authentication support.
+- "HTTPProcessors" help you build requests and handle responses, so you don't have to deal with form encoding, JSON serialization/deserialization, adding headers, parsing response, etc. In most cases, a dictionary is the only argument to provide, and the job will be done off the main thread.
+- URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
+- Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
+
 Requirements
 ====
 - Mac OS X 10.10+, iOS 8.0+
@@ -40,16 +52,6 @@ Jewzruxin, intended for internal, should be installed inside the application (Ma
   
 HTTP
 ====
-Jewzruxin provides extensive HTTP utilities, helping you accomplish HTTP tasks easily and quickly. The resulting code is straightforward and easy to maintain. The routes are designed with MVC and user interface in mind: the `HTTCycle` family classes can be referenced and used individually, making it easy to embed `HTTCycle` into model objects. Options like `solicited`, `explicitlyCanceling`, and "creation option" (`Create`, `Reuse`, or `Replace`) encourage you to build friendly user interface.
-
-Features:
-- Straightforward interfaces make the resulting code easy to read and maintain.
-- Thin wrappers around the NSURLSession family classes, no magic, no black boxes.
-- Authentication support.
-- "HTTPProcessors" help you build requests and handle responses, so you don't have to deal with form encoding, JSON serialization/deserialization, adding headers, parsing response, etc. In most cases, a dictionary is the only argument to provide, and the job will be done off the main thread.
-- URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
-- Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
-
 Sandbox endpoints
 ----
 Before jumping into the tutorial, it's necessary to introduce the sandbox endpoints. We will use these endpoints throughout the content below.
