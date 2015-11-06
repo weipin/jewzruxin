@@ -1,8 +1,22 @@
-Jewzruxin is a [Swift](https://developer.apple.com/swift/) toolkit. At the moment of writing this README, Jewzruxin focuses on providing extensive HTTP utilities.
+Jewzruxin -- a Swift toolkit
+====
+At the moment of writing this README, Jewzruxin focuses on providing extensive HTTP utilities.
 
 Jewzruxin follows the Swift convention and is compatible with the latest version of Swift.
 
 [ I'd like to point out that I am not a native English speak: likely you will find mistakes in grammar here and there. Please don't give me a hard time for this, and feel free to correct me! ]
+
+HTTP
+----
+Jewzruxin provides extensive HTTP utilities, helping you accomplish HTTP tasks easily and quickly. The resulting code is straightforward and easy to maintain. The routes are designed with MVC and user interface in mind: the `HTTCycle` family classes can be referenced and used individually, making it easy to embed `HTTCycle` into model objects. Options like `solicited`, `explicitlyCanceling`, and "creation option" (`Create`, `Reuse`, or `Replace`) encourage you to build friendly user interface.
+
+Features:
+- Straightforward interfaces make the resulting code easy to read and maintain.
+- Thin wrappers around the NSURLSession family classes, no magic, no black boxes.
+- Authentication support.
+- "HTTPProcessors" help you build requests and handle responses, so you don't have to deal with form encoding, JSON serialization/deserialization, adding headers, parsing response, etc. In most cases, a dictionary is the only argument to provide, and the job will be done off the main thread.
+- URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
+- Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
 
 Requirements
 ====
@@ -12,6 +26,8 @@ Requirements
 Playground
 ====
 A [playground](https://developer.apple.com/library/ios/recipes/Playground_Help/Chapters/AboutPlaygrounds.html) is provided to help you explore the toolkit. The way to use the playground is a little bit different from the normal ones due to the involvement of the custom framework.
+
+![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/playground.png)
 
 [IMPORTANT] If the project file "Jewzruxin.xcodeproj" is already open in Xcode, close it first before you open the playground workspace.
 
@@ -27,21 +43,17 @@ Jewzruxin, intended for internal, should be installed inside the application (Ma
 - It's not necessary to create a workspace, using a single Xcode project for both your application and framework target simplifies setup.
 - [IMPORTANT] If the project file "Jewzruxin.xcodeproj" is already open in Xcode, close it first.
 - Navigate to the folder "Jewzruxin", drag the project file "Jewzruxin.xcodeproj" into the Project Navigator of your application's Xcode project.
+ 
+  ![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/add_framework.gif)
+
 - Select your application target and switch to the "Build Phases" tab. In the "Target Dependencies" section, click + and choose the framework matches your deployment system: JewzruxiniOS for iOS or JewzruxinMac for Mac OS X. In the "Link Binary With Libraries" section, repeat the same action.
+
+  ![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/setup_framework.gif)
+  
 - Import the framework at the top of your code: `import JewzruxiniOS` for iOS or `import JewzruxinMac` for Mac OS X.
   
 HTTP
 ====
-Jewzruxin provides extensive HTTP utilities, helping you accomplish HTTP tasks easily and quickly. The resulting code is straightforward and easy to maintain. The routes are designed with MVC and user interface in mind: the `HTTCycle` family classes can be referenced and used individually, making it easy to embed `HTTCycle` into model objects. Options like `solicited`, `explicitlyCanceling`, and "creation option" (`Create`, `Reuse`, or `Replace`) encourage you to build friendly user interface.
-
-Features:
-- Straightforward interfaces make the resulting code easy to read and maintain.
-- Thin wrappers around the NSURLSession family classes, no magic, no black boxes.
-- Authentication support.
-- "HTTPProcessors" help you build requests and handle responses, so you don't have to deal with form encoding, JSON serialization/deserialization, adding headers, parsing response, etc. In most cases, a dictionary is the only argument to provide, and the job will be done off the main thread.
-- URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
-- Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
-
 Sandbox endpoints
 ----
 Before jumping into the tutorial, it's necessary to introduce the sandbox endpoints. We will use these endpoints throughout the content below.
@@ -51,7 +63,7 @@ URL          |   Method   |  Parameters  |  Response
 /hello/      |   GET      |     n/a      | Return string "Hello World"
 /dumpupload/ |   POST     |     n/a      | Return request body
 /echo/       |   GET      |     n/a      | See the explanation below
-
+scr
 The endpoint "/echo/" has few parameters, each affects a particular part of the response:
 
 1. "code": The status code to return, 200 by default.
@@ -639,7 +651,7 @@ try? github.requestResource("search", URIValues:URIValues) {
 
 The GitHub API endpoints share the same base URL, URI templates, request processors and response processors. By subclassing HTTPService (GitHubService) and constructing a configure file (github.plist), we can put things together and make requests in a unified way.
 
-[screenshot of plist file]
+![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/github.plist.png)
 
 Subclass HTTPService
 ----
