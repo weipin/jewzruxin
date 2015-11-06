@@ -13,6 +13,8 @@ Playground
 ====
 A [playground](https://developer.apple.com/library/ios/recipes/Playground_Help/Chapters/AboutPlaygrounds.html) is provided to help you explore the toolkit. The way to use the playground is a little bit different from the normal ones due to the involvement of the custom framework.
 
+![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/playground.png)
+
 [IMPORTANT] If the project file "Jewzruxin.xcodeproj" is already open in Xcode, close it first before you open the playground workspace.
 
 To interact with the sandbox environment, follow the steps below:
@@ -27,7 +29,13 @@ Jewzruxin, intended for internal, should be installed inside the application (Ma
 - It's not necessary to create a workspace, using a single Xcode project for both your application and framework target simplifies setup.
 - [IMPORTANT] If the project file "Jewzruxin.xcodeproj" is already open in Xcode, close it first.
 - Navigate to the folder "Jewzruxin", drag the project file "Jewzruxin.xcodeproj" into the Project Navigator of your application's Xcode project.
+ 
+  ![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/add_framework.gif)
+
 - Select your application target and switch to the "Build Phases" tab. In the "Target Dependencies" section, click + and choose the framework matches your deployment system: JewzruxiniOS for iOS or JewzruxinMac for Mac OS X. In the "Link Binary With Libraries" section, repeat the same action.
+
+  ![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/setup_framework.gif)
+  
 - Import the framework at the top of your code: `import JewzruxiniOS` for iOS or `import JewzruxinMac` for Mac OS X.
   
 HTTP
@@ -51,7 +59,7 @@ URL          |   Method   |  Parameters  |  Response
 /hello/      |   GET      |     n/a      | Return string "Hello World"
 /dumpupload/ |   POST     |     n/a      | Return request body
 /echo/       |   GET      |     n/a      | See the explanation below
-
+scr
 The endpoint "/echo/" has few parameters, each affects a particular part of the response:
 
 1. "code": The status code to return, 200 by default.
@@ -639,7 +647,7 @@ try? github.requestResource("search", URIValues:URIValues) {
 
 The GitHub API endpoints share the same base URL, URI templates, request processors and response processors. By subclassing HTTPService (GitHubService) and constructing a configure file (github.plist), we can put things together and make requests in a unified way.
 
-[screenshot of plist file]
+![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/github.plist.png)
 
 Subclass HTTPService
 ----
