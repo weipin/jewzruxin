@@ -1,2 +1,5 @@
 language: objective-c
 xcode_project: Jewzruxin/Jewzruxin.xcodeproj
+xcode_scheme:
+  - JewzruxiniOS
+  - JewzruxinMac
