@@ -26,7 +26,7 @@ import Foundation
 let Timeout = 20.0
 
 func t_(lastComponent: String) -> String {
-    let base = "http://127.0.0.1:8000"
+    let base = "http://jewzrux.in"
     let str = base + lastComponent
 
     return str

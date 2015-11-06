@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://127.0.0.1:8000/</string>
+	<string>http://jewzrux.in</string>
 	<key>Resources</key>
 	<array>
 		<dict>
 			<key>URITemplate</key>
-			<string>/test/echo{?content}</string>
+			<string>/core/echo{?content}</string>
 		</dict>
 	</array>
 </dict>
