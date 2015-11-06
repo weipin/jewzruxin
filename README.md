@@ -1,4 +1,6 @@
-Jewzruxin is a [Swift](https://developer.apple.com/swift/) toolkit. At the moment of writing this README, Jewzruxin focuses on providing extensive HTTP utilities.
+Jewzruxin -- a Swift toolkit
+====
+At the moment of writing this README, Jewzruxin focuses on providing extensive HTTP utilities.
 
 Jewzruxin follows the Swift convention and is compatible with the latest version of Swift.
 
