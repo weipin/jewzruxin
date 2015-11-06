@@ -17,7 +17,7 @@ A [playground](https://developer.apple.com/library/ios/recipes/Playground_Help/C
 
 To interact with the sandbox environment, follow the steps below:
 - Navigate to the folder Playground, open the workspace "Playground.xcworkspace" with Xcode.
-- Build the framework (Command + B). To be more specific, you need to build the target "JewzruxinMac" which should be selected by default (the playground only uses JewzruxinMac).
+- Build the framework (Command + B). To be more specific, you need to build the target "JewzruxinMac" (the playground only uses JewzruxinMac, the target selected by default).
 - Now you can navigate between the playground pages, making changes and examining results.
 
 Install
@@ -40,7 +40,7 @@ Features:
 - Authentication support.
 - "HTTPProcessors" help you build requests and handle responses, so you don't have to deal with form encoding, JSON serialization/deserialization, adding headers, parsing response, etc. In most cases, a dictionary is the only argument to provide, and the job will be done off the main thread.
 - URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
-- Configure-file driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
+- Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
 
 Sandbox endpoints
 ----
@@ -87,7 +87,7 @@ do {
 }
 ```
 
-Besides "GET", there are convenience methods for the rest of the HTTP methods:
+Besides "GET", the rest of the convenience methods cover the other HTTP methods:
 ```
 try? HTTPCycle.post("http://httpbin.org/post") {
     (cycle, error) in
@@ -111,7 +111,7 @@ Architecture
 ### The `HTTPCycle` object
 A `HTTPCycle` represents both HTTP request and HTTP response. To send a request, you create, configure, and start a `HTTPCycle`. To handle the response data, you examine the same `HTTPCycle`.
 
-A `HTTPCycle` preserves the data of the request to send and the response retrieves. You can resend a request by simply invoking the method `restart` on a "prepared" `HTTPCycle`, even if it has already been "used".
+A `HTTPCycle` preserves the data of the request to be sent and the response retrieves. You can resend a request by simply invoking the method `restart` on a "prepared" `HTTPCycle`, even if it has already been "used".
 
 ### Thin wrappers
 The HTTPCycle family classes are thin wrappers around the NSURLSession classes, all having a property `core`, pointing to the underlying Cocoa object. The table below explains the relationships:
@@ -144,7 +144,7 @@ The HTTPCycle family classes are thin wrappers around the NSURLSession classes, 
                    +-------------+
 
 
-Starting a HTTPCycle
+Start a HTTPCycle
 ----
 
 ### Through convenience methods
@@ -161,7 +161,9 @@ try? HTTPCycle.get("http://jewzrux.in/core/playground/hello/") {
 }
 ```
 
-`URLString` and `completionHandler` are required arguments, the rest ones are all optional and have default values.
+`URLString` and `completionHandler` are required arguments, the rest ones are all optional and have default values. Because
+`completionHandler` is the last argument, the code can be simplified with
+[Trailing Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html#//apple_ref/doc/uid/TP40014097-CH11-ID102).
 
 More type methods are available for the rest of the HTTP methods such as POST, PUT, DELETE, etc. Find the file "Cycle+Convenience.swift" for a complete list.
 
@@ -171,7 +173,7 @@ These convenience methods provide limited customization ability, and the request
 * Create and configure a `HTTPCycle`.
 * "Start" the `HTTPCycle`.
 
-Creating a `HTTPCycle` is simple: the only required argument is `requestURL`:
+Creating a `HTTPCycle` is simple -- the only required argument is `requestURL`:
 ```
 let URL = NSURL(string: "http://jewzrux.in/core/playground/hello/")!
 let cycle = HTTPCycle(requestURL: URL)
@@ -192,7 +194,7 @@ cycle.start({(cycle, error) in
 ```
 
 You handle the response in the closure `completionHandler`. Because
-`completionHandler` is the last parameter, the code can be simplified with
+`completionHandler` is the last argument, the code can be simplified with
 [Trailing Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html#//apple_ref/doc/uid/TP40014097-CH11-ID102). The parentheses can also be omitted entirely because the closure is the only argument to the method:
 
 ```
@@ -201,7 +203,7 @@ cycle.start {(cycle, error) in
 }
 ```
 
-In the closure, you examine the optional argument `error` for the requesting result. An error can be caused by HTTP connection, HTTPProcessor operations, HTTP status code, etc.
+In the closure, you examine the argument `error` for the requesting result. Errors can be caused by HTTP connection, HTTPProcessor operations, HTTP status code, etc.
 
 Custom headers
 ----
@@ -227,7 +229,9 @@ let cycle = try? HTTPCycle.get("http://jewzrux.in/core/playground/hello/") {
 }
 ```
 
-Call the method `cancel` of `HTTPCycle` to cancel the request. The argument `explicitly` indicates if the request is cancelled explicitly. The `explicitly` here is a user interface concept: whether or not the cancelling is issued by user. If `explicitly` is true, the closure `completionHandler` won't be called at the moment a connection is cancelled and it's your responsibility to perform the necessary actions "explicitly". For "implicitly" cancelling, examine the argument `error` in the closure `completionHandler`:
+Call the method `cancel` of `HTTPCycle` to cancel the request. The argument `explicitly` indicates if the request is cancelled explicitly. The `explicitly` here is a user interface concept: whether or not the cancelling is issued by user. If `explicitly` is true, the closure `completionHandler` won't be called at the moment a connection is cancelled and it's your responsibility to perform the necessary actions "explicitly". 
+
+To handle "implicitly" cancelling, you examine the argument `error` in the closure `completionHandler`:
 ```
 let cycle = try? HTTPCycle.get("http://jewzrux.in/core/playground/hello/") {
     (cycle, error) in
@@ -300,7 +304,6 @@ cycle.start {
 ```
 
 ### Send JSON request
-To send HTTP body in JSON format, 
 By following the steps below, you can send requests in JSON format easily:
 
 * Create a collection object and pass it as the argument `requestObject`.
@@ -327,7 +330,7 @@ With Jewzruxin, you use `HTTPProcessor` subclass objects to complete such tasks.
 Handle response
 ----
 ### Status code
-After a `HTTPCycle` successfully retrieves response, you can check the HTTP status code through the property `statusCode` of HTTPResponse:
+After a `HTTPCycle` successfully retrieves response, you can examine the HTTP status code through the property `statusCode` of HTTPResponse:
 ```
 cycle.response.statusCode
 ```
@@ -359,7 +362,7 @@ let value = cycle.response.valueForHTTPHeaderField("cOnTEnt-Type")
 The headers are also available as the property `headers` of HTTPResponse. `headers` is a Computed Property which obtains its value from a NSHTTPURLResponse.
 
 ### Error
-Examine the argument `error` of the closure `completionHandler` for errors. Erros can be caused by network connection (NSURLErrorDomain), the HTTPCycle family classes, etc.
+Examine the argument `error` of the closure `completionHandler` for errors. Errors can be caused by network connection (NSURLErrorDomain), the HTTPCycle family classes, etc.
 
 ###  JSON response
 For response data in JSON format, a common task is to convert the data back to a collection object. You can ask Jewzruxin do the job for your by creating a `HTTPJSONProcessor`, putting it into an array and passing the array as the argument `responseProcessors`:
@@ -392,7 +395,7 @@ The property `object` and the property `data` are available in both classes `HTT
 
 The `object`, a `AnyObject` type property, represents a "model". Depending on the context, it can be any type. For `HTTPRequest`, the `object` will be used to create request data. For `HTTPResponse`, the `object` will be used to store the model converted from the response data.
 
-The `data`, a `NSData` type property, represents raw data. For `HTTPRequest`, the `data` is the request body to send. For `HTTPResponse`, the `data` is the response data received.
+The `data`, a `NSData` type property, represents raw data. For `HTTPRequest`, the `data` is the request body to be sent. For `HTTPResponse`, the `data` is the response data received.
 
 The converting between `object` and `data` is performed by the HTTPProcessor subclass objects. For `HTTPRequest`, the processors (`requestProcessors`) convert `object` into `data`. For `HTTPResponse`, the processors (`responseProcessors`) convert `data` into `object`.
 
@@ -502,7 +505,7 @@ Jewzruxin will resend a request if one of the following conditions matches:
 * The response status code is 408 or 503.
 
 Jewzruxin stops resending if the retried number exceeds the limit. The limit is controlled by the constant `HTTPSession.Constants.RetryPolicyMaximumRetryCount`. There is
-one exception: if the property `solicited` of a `HTTPCycle` is true, the HTTPCycle will keep resending request, no matter what error happens, and without number limit, until it receives data.
+one exception: if the property `solicited` of a `HTTPCycle` is true, the HTTPCycle will keep resending request, no matter what error happens, and without number limit, until data is received.
 
 There is a delay before a new retry can be attempted. The interval is
 controlled by the property `retryDelay` of HTTPSession.
@@ -531,18 +534,18 @@ like tapping a button to reload a list. In such case, it's ideal for your app to
 
 The solicited state is represented by the property `solicited` of HTTPCycle. If the value of `solicited` is true, Jewzruxin will keep resending the request until it receives the response data.
 
-Most of the convenience methods accept an argument `solicited` which will be assigned as the property `solicited`.
+Most of the convenience methods accept an argument `solicited` which will be assigned as the property `solicited` of HTTPCycle.
 
 HTTPSession
 ----
 Each HTTPCycle references to a HTTPSession which does all the heavy lifting. The class HTTPSession is a thin wrapper around the class NSURLSession.
 
 ### The default session
-If you don't pass in a HTTPSession when you create a HTTPCycle, a default HTTPSession will be used. The default HTTPSession is a singleton returned by the type method `defaultSession` of HTTPSession. If you change a property of this HTTPSession, the change will affect all the HTTPCycle objects reference to this session.
+If you don't pass in a HTTPSession when you create a HTTPCycle, the default HTTPSession will be used. The default HTTPSession is a singleton returned by the type method `defaultSession` of HTTPSession. If you change a property of this HTTPSession, the change will affect all the HTTPCycle objects reference to this session.
 
 ### Backing HTTPCycle properties through HTTPSession
 It's common to have the same values for certain properties across multiple HTTPCycle objects. Jewzruxin offers a way to make this task easier. For these
-properties, you can assign the values to a HTTPSession and leave the corresponding properties of the HTTPCycle objects as nil. For these HTTPCycle objects, the HTTPSession object they reference to will provide the values.
+properties, you can assign the values to a HTTPSession and leave the corresponding properties of the HTTPCycle objects as nil. The HTTPSession object these HTTPCycle objects reference to will provide the values.
 
 For example, if you set an array of HTTPProcessor subclass objects as the property `requestProcessors` of a HTTPSession, all the HTTPCycle objects reference to this HTTPSession will return this array as the value of the property `requestProcessors`, as long as the property `requestProcessors` of the HTTPCycle is nil.
 
@@ -577,7 +580,7 @@ Jewzruxin offers two different approaches for authentication handling. One is pr
 
 ### Authentication through URL loading system
 To add authentication support through URL loading system, you create a
-`Authentication` subclass object such as `BasicAuthentication`, add the object to an array and then pass the array to the convenience method as the argument `authentications`. In the case you create a `HTTPCycle` by yourself, assign the array to the property `authentications`:
+`Authentication` subclass object such as `BasicAuthentication`, add the object to an array and then pass the array to the convenience method as the argument `authentications`. If the `HTTPCycle` is created by yourself, assign the array to the property `authentications`:
 ```
 let auth = BasicAuthentication(username: "test", password: "12345")
 try? HTTPCycle.get("http://jewzrux.in/core/playground/hello_with_basic_auth", authentications: [auth]) {
@@ -640,7 +643,7 @@ The GitHub API endpoints share the same base URL, URI templates, request process
 
 Subclass HTTPService
 ----
-The type method `serviceName` is the method you MUST override. To provide a custom `HTTPSession`, override the method `defaultSession`. 
+The type method `serviceName` is the method you MUST override. The method `defaultSession` can be overridden to provide a custom `HTTPSession`. 
 
 ```
 class GitHubService: HTTPService {
@@ -659,7 +662,7 @@ class GitHubService: HTTPService {
 
 The return value of `serviceName` will be used to locate the default profile. For example, the default profile filename of `GitHubService` is github.plist.
 
-The other method you can override is `cycleDidCreateWithResourceName`. Override this method to customize the specific HTTPCycle objects created by the HTTPService. `cycleDidCreateWithResourceName` will be called immediately after a HTTPCycle is created by the HTTPService, giving you a chance to customize the HTTPCycle which doesn't share the same behavior as the rest ones. For example, if there is an endpoint doesn't use JSON for both request and response, you can make an exception as below:
+The other method you may want to override is `cycleDidCreateWithResourceName`. Override this method to customize the specific HTTPCycle objects created by the HTTPService. `cycleDidCreateWithResourceName` will be called immediately after a HTTPCycle is created by the HTTPService, giving you a chance to customize the HTTPCycle which doesn't share the same behavior as the rest ones. For example, if there would be an GitHub endpoint doesn't use JSON for both request and response, you can make an exception as below:
 ```
 override func cycleDidCreateWithResourceName(cycle: HTTPCycle, name: String) {
     if name == "upload" {
@@ -674,7 +677,7 @@ HTTPService profile
 A HTTPService profile is a dictionary which describes a "service" with base  URL, endpoints, etc. Here is a [profile example](https://github.com/weipin/jewzruxin/blob/master/Playground/Files/Playground.playground/Pages/HTTP%20Advanced.xcplaygroundpage/Resources/github.plist) of the GitHub service.
 
 ### Define profile with Property Lists
-You construct a profile with [Property Lists](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html) and bundle the file into the app. The Property Lists file should be named after the `serviceName`. 
+You construct a profile with [Property Lists](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html) and bundle the file into the app. The Property Lists file should be named after the return value of the method `serviceName`. 
 
 ### Assign a profile
 Besides the implicit convention discussed above, you can assign the profile (a dictionary) explicitly, as long as the profile is valid. The dictionary can be passed to the initializer of a HTTPSession subclass, or be assigned to the property `profile`.
@@ -789,7 +792,7 @@ Note: The property `delegate` is a weak reference. Make sure the object it refer
 
 Error originates from HTTP status
 ----
-Jewzruxin treats a response with HTTP status above 400 (including 400) as a failure by default: an ErrorType will be created and passed as the argument `error` to `completionHandler`:
+Jewzruxin treats a response with HTTP status above 400 (including 400) as a failure by default -- an ErrorType will be created and passed as the argument `error` to `completionHandler`:
 
 ```
 try? HTTPCycle.get("http://jewzrux.in/core/playground/echo/?code=404") {
@@ -801,7 +804,7 @@ try? HTTPCycle.get("http://jewzrux.in/core/playground/echo/?code=404") {
 
 This behavior helps you write less code because you don't have to examine status code for "logic errors".
 
-To handle the status code all by yourself (no longer treat status above 400 as error), you can change the behavior through the delegate of HTTPSession. Here are the steps:
+To handle the status code all by yourself (no longer treats status above 400 as error), you can change the behavior through the delegate of HTTPSession. Here are the steps:
 
 1. Create a class conforms to HTTPSessionDelegate.
 1. Implement the optional method `sessionShouldTreatStatusCodeAsFailure`.
