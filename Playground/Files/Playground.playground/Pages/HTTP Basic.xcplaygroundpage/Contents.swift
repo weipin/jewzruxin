@@ -26,8 +26,8 @@ The endpoint "/echo/" has few query parameters, each affects a particular part o
 
 
 /*:
-### Convenient methods
-HTTPCycle provides few convenient methods for the common HTTP tasks.
+### Convenience methods
+HTTPCycle provides few convenience methods for the common HTTP tasks.
 */
 
 /*:
@@ -43,7 +43,7 @@ try? HTTPCycle.get(BaseURL + "/core/playground/hello/") {
 }
 
 /*:
-2. The convenient methods will throw an error immediately if the specified URL is invalid.
+2. The convenience methods will throw an error immediately if the specified URL is invalid.
 */
 do {
     try HTTPCycle.get("") {
