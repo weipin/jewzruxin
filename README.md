@@ -1,5 +1,8 @@
 Jewzruxin -- a Swift toolkit
 ====
+
+[![Build Status](https://travis-ci.org/weipin/jewzruxin.svg)](https://travis-ci.org/weipin/jewzruxin)
+
 At the moment of writing this README, Jewzruxin focuses on providing extensive HTTP utilities.
 
 Jewzruxin follows the Swift convention and is compatible with the latest version of Swift.
