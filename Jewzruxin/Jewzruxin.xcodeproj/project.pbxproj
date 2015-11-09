@@ -62,6 +62,8 @@
 		16FB40761BA5C03900122C76 /* JewzruxiniOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB40751BA5C03900122C76 /* JewzruxiniOSTests.swift */; };
 		16FDD6611BA87DD300B79E85 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDD6601BA87DD300B79E85 /* Cycle.swift */; };
 		16FDD6621BA87DD300B79E85 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDD6601BA87DD300B79E85 /* Cycle.swift */; };
+		16FFC05C1BF0E874002AF27E /* KVOCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFC05B1BF0E874002AF27E /* KVOCenter.swift */; };
+		16FFC05D1BF0E874002AF27E /* KVOCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFC05B1BF0E874002AF27E /* KVOCenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +121,7 @@
 		16FB40751BA5C03900122C76 /* JewzruxiniOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JewzruxiniOSTests.swift; sourceTree = "<group>"; };
 		16FB40771BA5C03900122C76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16FDD6601BA87DD300B79E85 /* Cycle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cycle.swift; path = Source/HTTP/Cycle.swift; sourceTree = "<group>"; };
+		16FFC05B1BF0E874002AF27E /* KVOCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KVOCenter.swift; path = Source/Foundation/KVOCenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				16EB5DF81BAB02E400BD9BFF /* Error.swift */,
+				16FFC05B1BF0E874002AF27E /* KVOCenter.swift */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 			files = (
 				16F854631BB045DB005D5D6F /* URITemplate.swift in Sources */,
 				1648DE8C1BB98D4F006F8015 /* Service.swift in Sources */,
+				16FFC05D1BF0E874002AF27E /* KVOCenter.swift in Sources */,
 				163CA2B01BAEB0F600EC36E5 /* Error.swift in Sources */,
 				163660441BB4503C002184D0 /* Cycle+Convenience.swift in Sources */,
 				163CA2AE1BAEB0DC00EC36E5 /* Processor.swift in Sources */,
@@ -527,6 +532,7 @@
 				16FDD6611BA87DD300B79E85 /* Cycle.swift in Sources */,
 				16F854621BB045DB005D5D6F /* URITemplate.swift in Sources */,
 				163CA2B41BAEEAD900EC36E5 /* Authentication.swift in Sources */,
+				16FFC05C1BF0E874002AF27E /* KVOCenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
