@@ -22,23 +22,26 @@
 
 import Foundation
 
-public typealias KeyValueObserverProxyCallback = (keyPath: String?, observed: AnyObject?, change: [NSObject: AnyObject]?, context: UnsafeMutablePointer<Void>) -> Void
-
 public class KeyValueObserverProxy: NSObject {
+    public typealias KeyValueObserverProxyCallback = (keyPath: String?, observed: AnyObject?, change: [NSObject: AnyObject]?, contextObject: AnyObject?) -> Void
+    
     weak var observed: NSObject!
-    weak var observer: AnyObject!
+    weak var contextObject: AnyObject!
     var keyPath: String!
     var queue: NSOperationQueue?
-    var context: UnsafeMutablePointer<Void>!
     var callback: KeyValueObserverProxyCallback!
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        var contextObject = self.contextObject
+        if self.contextObject is KeyValueObserverProxy {
+            contextObject = nil
+        }
         if let queue = self.queue {
             queue.addOperationWithBlock {
-                self.callback(keyPath: keyPath, observed:object, change:change, context:context)
+                self.callback(keyPath: keyPath, observed:object, change:change, contextObject:contextObject)
             }
         } else {
-            self.callback(keyPath: keyPath, observed:object, change:change, context:context)
+            self.callback(keyPath: keyPath, observed:object, change:change, contextObject:contextObject)
         }
     }
 }
@@ -54,32 +57,36 @@ public class KeyValueObservingCenter {
 
     var dict = [NSValue: NSMutableArray]()
 
-    public func addObserverForKeyPath(keyPath: String, object obj: NSObject, queue: NSOperationQueue? = nil, options: NSKeyValueObservingOptions = .New, context: UnsafeMutablePointer<Void> = nil, observer: NSObject? = nil, callback: KeyValueObserverProxyCallback) -> KeyValueObserverProxy {
+    public func addObserverForKeyPath(keyPath: String, object obj: NSObject, queue: NSOperationQueue? = nil, options: NSKeyValueObservingOptions = .New, context: UnsafeMutablePointer<Void> = nil, contextObject: NSObject? = nil, callback: KeyValueObserverProxy.KeyValueObserverProxyCallback) -> KeyValueObserverProxy {
         let proxy = KeyValueObserverProxy()
         proxy.observed = obj
-        proxy.observer = observer ?? proxy
+        proxy.contextObject = contextObject ?? proxy
         proxy.keyPath = keyPath
         proxy.queue = queue
-        proxy.context = context
         proxy.callback = callback
 
-        let k = NSValue(nonretainedObject: proxy.observer)
-        let proxies = self.dict[k] ?? NSMutableArray()
-        proxies.addObject(proxy)
+        let k = NSValue(nonretainedObject: proxy.contextObject)
+        var proxies = self.dict[k]
+        if proxies == nil {
+            proxies = NSMutableArray()
+            self.dict[k] = proxies
+        }
+        proxies!.addObject(proxy)
 
         obj.addObserver(proxy, forKeyPath: keyPath, options: options, context: context)
         return proxy
     }
 
-    public func removeObserver(observer: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
-        if let _ = observer as? KeyValueObserverProxy {
+    public func removeObserver(contextObject: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
+        if let _ = contextObject as? KeyValueObserverProxy {
             if observed != nil {
-                assert(false, "The argument `observed` is supposed to be nil if the argument `observer` is a KeyValueObserverProxy!")
+                assert(false, "The argument `observed` is supposed to be nil if the argument `contextObject` is a KeyValueObserverProxy!")
             }
         }
 
-        let k = NSValue(nonretainedObject: observer)
+        let k = NSValue(nonretainedObject: contextObject)
         guard let proxies = self.dict[k] else {
+            NSLog("KeyValueObserverProxy list not found for keyPath:\(keyPath) of contextObject \(contextObject)!")
             return
         }
         var proxiesToRemove = [AnyObject]()
@@ -92,7 +99,7 @@ public class KeyValueObservingCenter {
                 continue
             }
             proxiesToRemove.append(proxy)
-            proxy.observed.removeObserver(proxy, forKeyPath: proxy.keyPath, context: proxy.context)
+            proxy.observed.removeObserver(proxy, forKeyPath: proxy.keyPath)
         }
 
         proxies.removeObjectsInArray(proxiesToRemove)

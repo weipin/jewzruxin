@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1614DFE51BF31A6300F15588 /* KVOCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614DFE41BF31A6200F15588 /* KVOCenterTests.swift */; };
+		1614DFE61BF31A6300F15588 /* KVOCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614DFE41BF31A6200F15588 /* KVOCenterTests.swift */; };
 		163660431BB4503C002184D0 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163660421BB4503C002184D0 /* Cycle+Convenience.swift */; };
 		163660441BB4503C002184D0 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163660421BB4503C002184D0 /* Cycle+Convenience.swift */; };
 		163CA2AD1BAEABE900EC36E5 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163CA2AC1BAEABE900EC36E5 /* iOS.swift */; };
@@ -84,6 +86,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1614DFE41BF31A6200F15588 /* KVOCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KVOCenterTests.swift; path = Test/Foundation/KVOCenterTests.swift; sourceTree = "<group>"; };
 		163660421BB4503C002184D0 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "Source/HTTP/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		163CA2AC1BAEABE900EC36E5 /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOS.swift; path = Source/Platform/iOS.swift; sourceTree = "<group>"; };
 		163CA2B31BAEEAD900EC36E5 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = Source/HTTP/Authentication.swift; sourceTree = "<group>"; };
@@ -158,6 +161,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1614DFE31BF319B000F15588 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				1614DFE41BF31A6200F15588 /* KVOCenterTests.swift */,
+			);
+			name = Foundation;
+			sourceTree = "<group>";
+		};
 		163CA2AB1BAEABC900EC36E5 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +197,7 @@
 		163CA2BA1BAF2FCC00EC36E5 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1614DFE31BF319B000F15588 /* Foundation */,
 				163CA2B61BAF122200EC36E5 /* HTTP */,
 				16588C9C1BB1C1DD001627B7 /* Tests.swift */,
 			);
@@ -508,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F8546D1BB07C8A005D5D6F /* URITemplateTests.swift in Sources */,
+				1614DFE61BF31A6300F15588 /* KVOCenterTests.swift in Sources */,
 				16588C9E1BB1C1DD001627B7 /* Tests.swift in Sources */,
 				1648DE891BB97221006F8015 /* Cycle+ConvenienceTests.swift in Sources */,
 				16C56AC41BB3CDE900CA60E8 /* SessionTests.swift in Sources */,
@@ -541,6 +554,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F854671BB05E5A005D5D6F /* URITemplateTests.swift in Sources */,
+				1614DFE51BF31A6300F15588 /* KVOCenterTests.swift in Sources */,
 				16588C9D1BB1C1DD001627B7 /* Tests.swift in Sources */,
 				1648DE881BB97221006F8015 /* Cycle+ConvenienceTests.swift in Sources */,
 				16C56AC31BB3CDE900CA60E8 /* SessionTests.swift in Sources */,
