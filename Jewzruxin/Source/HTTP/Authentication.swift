@@ -130,7 +130,7 @@ public class HTTPAuthentication {
     }
 
     func startInteraction(completionHandler: InteractionCompletionHandler) {
-        assert(false);
+        assert(false)
     }
 }
 

@@ -47,8 +47,8 @@ class HTTPCycleTests: XCTestCase {
 
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "Hello World");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -64,7 +64,7 @@ class HTTPCycleTests: XCTestCase {
 
             let enc = CFStringEncoding(CFStringEncodings.EUC_CN.rawValue)
             let encoding = cycle.response.textEncoding
-            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -80,7 +80,7 @@ class HTTPCycleTests: XCTestCase {
 
             let enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.rawValue)
             let encoding = cycle.response.textEncoding
-            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -96,7 +96,7 @@ class HTTPCycleTests: XCTestCase {
 
             let enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)
             let encoding = cycle.response.textEncoding
-            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -111,7 +111,7 @@ class HTTPCycleTests: XCTestCase {
             XCTAssertNil(error)
 
             let encoding = cycle.response.textEncoding
-            XCTAssertTrue(encoding == NSUTF8StringEncoding);
+            XCTAssertTrue(encoding == NSUTF8StringEncoding)
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -241,7 +241,7 @@ class HTTPCycleTests: XCTestCase {
         WaitForWithTimeout(30.0) {
             return false
         }
-        XCTAssertTrue(cycle.retriedCount > HTTPSession.Constants.RetryPolicyMaximumRetryCount);
+        XCTAssertTrue(cycle.retriedCount > HTTPSession.Constants.RetryPolicyMaximumRetryCount)
     }
 
     func testRetryAboveMaxCountShouldFail() {
@@ -250,7 +250,7 @@ class HTTPCycleTests: XCTestCase {
         let cycle = HTTPCycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertEqual(cycle.response.statusCode, NSInteger(408));
+            XCTAssertEqual(cycle.response.statusCode, NSInteger(408))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(30.0, handler: nil)

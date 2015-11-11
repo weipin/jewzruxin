@@ -44,7 +44,7 @@ class HTTPBasicAuthProcessorTests: XCTestCase {
     func testHeaderForUsernameShouldWork() {
         let header = HTTPBasicAuthProcessor.headerForUsername("Aladdin", password: "open sesame")
         XCTAssertNotNil(header)
-        XCTAssertEqual(header!, "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
+        XCTAssertEqual(header!, "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==")
     }
 
 }

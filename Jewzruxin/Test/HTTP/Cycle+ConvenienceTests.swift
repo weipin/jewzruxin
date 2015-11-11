@@ -71,8 +71,8 @@ class CycleConvenienceTests: XCTestCase {
         let URLString = t_("/core/hello/")
         try! HTTPCycle.get(URLString, completionHandler: {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "Hello World");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         })
 
@@ -85,8 +85,8 @@ class CycleConvenienceTests: XCTestCase {
         try! HTTPCycle.get(URLString, parameters: ["content": ["helloworld"]],
                   completionHandler: {(cycle, error) in
                     XCTAssertNil(error)
-                    XCTAssertEqual(cycle.response.text, "helloworld");
-                    XCTAssertEqual(cycle.response.statusCode, 200);
+                    XCTAssertEqual(cycle.response.text, "helloworld")
+                    XCTAssertEqual(cycle.response.statusCode, 200)
                     expection.fulfill()
             })
 

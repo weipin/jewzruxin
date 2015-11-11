@@ -269,7 +269,7 @@ public class URITemplate {
                         }
 
                     } else {
-                        NSLog("Value for varName %@ is not a list or a pair", varName);
+                        NSLog("Value for varName %@ is not a list or a pair", varName)
                     }
 
                 } else {
@@ -312,7 +312,7 @@ public class URITemplate {
                         }
 
                     } else {
-                        NSLog("Value for varName %@ is not a list or a pair", varName);
+                        NSLog("Value for varName %@ is not a list or a pair", varName)
                     }
                 } // if behavior.named
 
@@ -538,7 +538,7 @@ public class URITemplate {
                                         break;
                                     }
                                 } else {
-                                    assert(false);
+                                    assert(false)
                                 }
                             }
                         } // for expression
@@ -567,7 +567,7 @@ public class URITemplate {
                     } // varspec-list
 
                 } else {
-                    expression += String(c);
+                    expression += String(c)
                 }
             } // switch
         } // for

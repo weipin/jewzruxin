@@ -134,8 +134,8 @@ class ServiceHTTPTests: XCTestCase {
         let cycle = try! service!.cycleForResourceWithIdentifer("hello", URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text!, "hello world");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text!, "hello world")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -157,8 +157,8 @@ class ServiceHTTPTests: XCTestCase {
         XCTAssertFalse(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello 2");
-            XCTAssertEqual(cycle.response!.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "hello 2")
+            XCTAssertEqual(cycle.response!.statusCode, 200)
             expection.fulfill()
         }
 
@@ -181,8 +181,8 @@ class ServiceHTTPTests: XCTestCase {
         XCTAssertTrue(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello 1");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "hello 1")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         }
 
@@ -195,8 +195,8 @@ class ServiceHTTPTests: XCTestCase {
         let cycle = try! service!.cycleForResource("hello", URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello world");
-            XCTAssertEqual(cycle.response!.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "hello world")
+            XCTAssertEqual(cycle.response!.statusCode, 200)
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -207,8 +207,8 @@ class ServiceHTTPTests: XCTestCase {
         let service = FooTestService()
         _ = try! service!.requestResourceWithIdentifer("hello", identifier: "test_task", URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello world");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "hello world")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         })
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -219,8 +219,8 @@ class ServiceHTTPTests: XCTestCase {
         let service = FooTestService()
         _ = try! service!.requestResource("hello", URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello world");
-            XCTAssertEqual(cycle.response.statusCode, 200);
+            XCTAssertEqual(cycle.response.text, "hello world")
+            XCTAssertEqual(cycle.response.statusCode, 200)
             expection.fulfill()
         })
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)

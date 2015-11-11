@@ -43,36 +43,36 @@ class HTTPCommonTests: XCTestCase {
 
     func testParsingHTTPContentTypeLikeHeader() {
         var (type, parameters) = "text/html; charset=UTF-8".parametersByParsingHTTPContentTypeLikeHeader()
-        XCTAssertEqual(type, "text/html");
-        XCTAssertEqual(parameters["charset"]!, "UTF-8");
+        XCTAssertEqual(type, "text/html")
+        XCTAssertEqual(parameters["charset"]!, "UTF-8")
 
         (type, parameters) = "text/html; charset=\"UTF-8\"".parametersByParsingHTTPContentTypeLikeHeader()
-        XCTAssertEqual(type, "text/html");
-        XCTAssertEqual(parameters["charset"]!, "UTF-8");
+        XCTAssertEqual(type, "text/html")
+        XCTAssertEqual(parameters["charset"]!, "UTF-8")
 
         (type, parameters) = "text/html; charset='UTF-8'".parametersByParsingHTTPContentTypeLikeHeader()
-        XCTAssertEqual(type, "text/html");
-        XCTAssertEqual(parameters["charset"]!, "UTF-8");
+        XCTAssertEqual(type, "text/html")
+        XCTAssertEqual(parameters["charset"]!, "UTF-8")
 
         (type, parameters) = "something invalid".parametersByParsingHTTPContentTypeLikeHeader()
-        XCTAssertEqual(type, "something invalid");
-        XCTAssertNil(parameters["charset"]);
+        XCTAssertEqual(type, "something invalid")
+        XCTAssertNil(parameters["charset"])
     }
 
     func testEscapingToURLArgumentString() {
         var s = "& hello -_ world".stringByEscapingToURLArgumentString()
-        XCTAssertEqual(s!, "%26%20hello%20-_%20world");
+        XCTAssertEqual(s!, "%26%20hello%20-_%20world")
 
         s = " -._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".stringByEscapingToURLArgumentString()
-        XCTAssertEqual(s!, "%20-._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+        XCTAssertEqual(s!, "%20-._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
     }
 
     func testUnescapingFromURLArgumentString() {
         var s = "%26%20hello%20-_%20world".stringByUnescapingFromURLArgumentString()
-        XCTAssertEqual(s!, "& hello -_ world");
+        XCTAssertEqual(s!, "& hello -_ world")
 
         s = "%20-._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".stringByUnescapingFromURLArgumentString()
-        XCTAssertEqual(s!, " -._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+        XCTAssertEqual(s!, " -._~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
     }
 
     func testFormURLEncodeDictionary() {

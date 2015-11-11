@@ -70,7 +70,7 @@ class HTTPSessionTests: XCTestCase {
             return finished
         }
         print("\(cycle.retriedCount)")
-        XCTAssertTrue(cycle.retriedCount == 0);
+        XCTAssertTrue(cycle.retriedCount == 0)
     }
 
     func testDelegateForStatusFailureShouldWork() {

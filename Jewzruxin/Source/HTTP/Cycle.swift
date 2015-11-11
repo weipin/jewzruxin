@@ -318,7 +318,7 @@ This class manages `HTTPCycle` objects. You can also threat this class as a wrap
 
         if retry {
             ++cycle.retriedCount
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(self.retryDelay * Double(NSEC_PER_SEC)));
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(self.retryDelay * Double(NSEC_PER_SEC)))
             dispatch_after(when, dispatch_get_main_queue()) {
                 cycle.restart()
             }
@@ -413,7 +413,7 @@ This class manages `HTTPCycle` objects. You can also threat this class as a wrap
             return
         }
 
-        cycle.didWriteDataHandler?(cycle: cycle, bytesWritten: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite);
+        cycle.didWriteDataHandler?(cycle: cycle, bytesWritten: bytesWritten, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
 
     public func cycleDidFinish(cycle: HTTPCycle, error: ErrorType?) {
@@ -627,13 +627,13 @@ This class represents a HTTP "cycle", including request and response.
             }
             switch source {
             case .Data(let data):
-                task = self.session.core.uploadTaskWithRequest(self.request.core, fromData:data);
+                task = self.session.core.uploadTaskWithRequest(self.request.core, fromData:data)
             case .File(let file):
-                task = self.session.core.uploadTaskWithRequest(self.request.core, fromFile:file);
+                task = self.session.core.uploadTaskWithRequest(self.request.core, fromFile:file)
             }
         case .Download:
-            assert(self.downloadFileHandler != nil);
-            task = self.session.core.downloadTaskWithRequest(self.request.core);
+            assert(self.downloadFileHandler != nil)
+            task = self.session.core.downloadTaskWithRequest(self.request.core)
         }
         return task
     }

@@ -172,27 +172,27 @@ public class HTTPService {
     public func verifyProfile(profile: [String: AnyObject]) -> Bool {
         var names: Set<String> = []
         guard let value: AnyObject = profile[HTTPService.Key.Resources.rawValue] else {
-            NSLog("Warning: no resources found in Service profile!");
+            NSLog("Warning: no resources found in Service profile!")
             return false
         }
         guard let resources = value as? [[String: String]] else {
-            NSLog("Error: Malformed Resources in Service profile (type does not match)!");
+            NSLog("Error: Malformed Resources in Service profile (type does not match)!")
             return false
         }
 
         for (index, resource) in resources.enumerate() {
             guard let name = resource[HTTPService.Key.Name.rawValue] else {
-                NSLog("Error: Malformed Resources (name not found) in Service profile (resource index: \(index))!");
+                NSLog("Error: Malformed Resources (name not found) in Service profile (resource index: \(index))!")
                 return false
             }
 
             if names.contains(name) {
-                NSLog("Error: Malformed Resources (duplicate name \(name)) in Service profile (resource index: \(index))!");
+                NSLog("Error: Malformed Resources (duplicate name \(name)) in Service profile (resource index: \(index))!")
                 return false
             }
 
             if resource[HTTPService.Key.URITemplate.rawValue] == nil {
-                NSLog("Error: Malformed Resources (URL Template not found) in Service profile (resource index: \(index))!");
+                NSLog("Error: Malformed Resources (URL Template not found) in Service profile (resource index: \(index))!")
                 return false
             }
 
