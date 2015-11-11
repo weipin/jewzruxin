@@ -63,7 +63,7 @@ class KVOCenterTests: XCTestCase {
         XCTAssertEqual(result, 456)
         XCTAssertNil(callbackContextObject)
 
-        center.removeObserver(proxy)
+        center.removeObserverForProxy(proxy)
         self.objectToObserve.iVar = 789
         XCTAssertEqual(result, 456)
     }
@@ -94,7 +94,7 @@ class KVOCenterTests: XCTestCase {
         XCTAssertTrue(callbackContextObject1 === self)
         XCTAssertTrue(callbackContextObject2 === self)
 
-        center.removeObserver(self)
+        center.removeObserverForContextObject(self)
         self.objectToObserve.iVar = 789
         self.objectToObserve.anotheriVar = "ghi"
         XCTAssertEqual(result1, 456)
@@ -127,7 +127,7 @@ class KVOCenterTests: XCTestCase {
         XCTAssertTrue(callbackContextObject1 === self)
         XCTAssertTrue(callbackContextObject2 === self)
 
-        center.removeObserver(self, keyPath: "anotheriVar")
+        center.removeObserverForContextObject(self, keyPath: "anotheriVar")
         self.objectToObserve.iVar = 789
         self.objectToObserve.anotheriVar = "ghi"
         XCTAssertEqual(result1, 789)

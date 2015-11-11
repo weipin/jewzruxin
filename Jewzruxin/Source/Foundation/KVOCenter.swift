@@ -77,16 +77,12 @@ public class KeyValueObservingCenter {
         return proxy
     }
 
-    public func removeObserver(contextObject: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
-        if let _ = contextObject as? KeyValueObserverProxy {
-            if observed != nil {
-                assert(false, "The argument `observed` is supposed to be nil if the argument `contextObject` is a KeyValueObserverProxy!")
-            }
-        }
+    public func removeObserverForContextObject(contextObject: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
+        assert(!(contextObject is KeyValueObserverProxy), "Call `removeObserverForProxy` instead!")
 
         let k = NSValue(nonretainedObject: contextObject)
         guard let proxies = self.dict[k] else {
-            NSLog("KeyValueObserverProxy list not found for keyPath:\(keyPath) of contextObject \(contextObject)!")
+            NSLog("KeyValueObserverProxy list not found for contextObject \(contextObject)!")
             return
         }
         var proxiesToRemove = [AnyObject]()
@@ -104,5 +100,21 @@ public class KeyValueObservingCenter {
 
         proxies.removeObjectsInArray(proxiesToRemove)
     } // func
+
+    public func removeObserverForProxy(proxy: KeyValueObserverProxy) {
+        let k = NSValue(nonretainedObject: proxy)
+        guard let proxies = self.dict[k] else {
+            NSLog("KeyValueObserverProxy list not found for proxy \(proxy)!")
+            return
+        }
+        var proxiesToRemove = [AnyObject]()
+        for i in proxies {
+            let proxy = i as! KeyValueObserverProxy
+            proxiesToRemove.append(proxy)
+            proxy.observed.removeObserver(proxy, forKeyPath: proxy.keyPath)
+        }
+
+        proxies.removeObjectsInArray(proxiesToRemove)
+    }
 }
 
