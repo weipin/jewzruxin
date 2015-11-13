@@ -22,6 +22,9 @@
 
 import Foundation
 
+/**
+ An object of this class can act as observer of Key-Value Observing, a proxy of the underlying closure (`callback`). You should not create KeyValueObserverProxy by yourself: The KeyValueObservingCenter creates KeyValueObserverProxy for you. You can use KeyValueObserverProxy objects to remove specific key-value observing.
+ */
 public class KeyValueObserverProxy: NSObject {
     public typealias KeyValueObserverProxyCallback = (keyPath: String?, observed: AnyObject?, change: [NSObject: AnyObject]?, contextObject: AnyObject?) -> Void
     
@@ -50,8 +53,14 @@ public class KeyValueObserverProxy: NSObject {
     }
 }
 
+/**
+An KeyValueObservingCenter object provides an easy way to add/remove Key-Value Observing bindings.
+ */
 public class KeyValueObservingCenter {
-    class func defaultCenter() -> KeyValueObservingCenter {
+    /**
+     Returns the default KeyValueObservingCenter.
+     */
+    public class func defaultCenter() -> KeyValueObservingCenter {
         struct Singleton {
             static let sharedInstance = KeyValueObservingCenter()
         }
@@ -71,7 +80,19 @@ public class KeyValueObservingCenter {
         proxies!.addObject(proxy)
     }
 
-    public func addObserverForKeyPath(keyPath: String, object obj: NSObject, queue: NSOperationQueue? = nil, options: NSKeyValueObservingOptions = .New, contextObject: NSObject? = nil, callback: KeyValueObserverProxy.KeyValueObserverProxyCallback) -> KeyValueObserverProxy {
+    /**
+     Adds a key-value binding to the specified object (the observed), with a closure and an optional queue, and few optional arguments.
+
+     - Parameter keyPath: The key path, relative to `object`, to the value that has changed.
+     - Parameter object: The source object of the key path keyPath.
+     - Parameter queue: The operation queue to which the `callback` should be added.
+     - Parameter options: A combination of the NSKeyValueObservingOptions values that specifies what is included in observation notifications.
+     - Parameter contextObject: An object that is passed to the `callback` closure, can be used to remove the binding.
+     - Parameter callback: The closure to be executed when the value at the specified key path relative to the given object has changed.
+     
+     - Returns: The KeyValueObserverProxy acts as the observer.
+     */
+    public func addObserverForKeyPath(keyPath: String, object obj: NSObject, queue: NSOperationQueue? = nil, options: NSKeyValueObservingOptions = .New, contextObject: AnyObject? = nil, callback: KeyValueObserverProxy.KeyValueObserverProxyCallback) -> KeyValueObserverProxy {
         let proxy = KeyValueObserverProxy(observed: obj, contextObject: contextObject, keyPath: keyPath, queue: queue, callback: callback)
 
         self.addProxy(proxy, withObject: proxy)
@@ -83,7 +104,14 @@ public class KeyValueObservingCenter {
         return proxy
     }
 
-    public func removeObserverForContextObject(contextObject: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
+    /**
+     Breaks key-value bindings with the specified contextObject, with an optional keyPath and an optional observed object.
+
+     - Parameter contextObject: The context object associates with the bindings.
+     - Parameter keyPath: The key path of the bindings.
+     - Parameter observed: The observed object of the bindings.
+     */
+    public func removeObserverForContextObject(contextObject: AnyObject, keyPath: String? = nil, observed: AnyObject? = nil) {
         assert(!(contextObject is KeyValueObserverProxy), "Call `removeObserverForProxy` instead!")
 
         let k = NSValue(nonretainedObject: contextObject)
@@ -112,6 +140,9 @@ public class KeyValueObservingCenter {
         proxies.removeObjectsInArray(proxiesToRemove)
     } // func
 
+    /**
+    Breaks key-value bindings with the specified KeyValueObserverProxy.
+    */
     public func removeObserverForProxy(proxy: KeyValueObserverProxy) {
         proxy.observed.removeObserver(proxy, forKeyPath: proxy.keyPath)
 

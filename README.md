@@ -12,9 +12,11 @@ Jewzruxin follows the Swift convention and is compatible with the latest version
 ### Table of Contents
   * [Jewzruxin \-\- a Swift toolkit](#jewzruxin----a-swift-toolkit)
     * [HTTP](#http)
+    * [Key\-Value Observing](#key-value-observing)
   * [Requirements](#requirements)
   * [Playground](#playground)
   * [Install](#install)
+  * [Key\-Value Observing](#key-value-observing-1)
   * [HTTP](#http-1)
     * [Sandbox endpoints](#sandbox-endpoints)
     * [Making requests](#making-requests)
@@ -80,6 +82,18 @@ Features:
 - URI Template support, a full Swift implementation of RFC6570: can expand templates up to and including Level 4 in that specification.
 - Profile-driven HTTP API routes: creating a library to interact with API endpoints becomes as simple as creating a configure file.
 
+Key-Value Observing
+----
+The class KeyValueObservingCenter provides an easy way to add/remove Key-Value Observing bindings.
+
+Features:
+- Provides an easy to understand interface similar with NSNotificationCenter.
+- No need to create a global context variable.
+- Supports closure, no need to prepare a specific "observer" (a NSObject subclass) and override the `observeValueForKeyPath:ofObject:change:context:`.
+- Supports "context object". The context object will be passed to the closure and can be used to remove the bindings associate with the object.
+- Much easier to register multiple key paths, and key paths on multiple objects.
+- Much easier to remove multiple key paths, and key paths on multiple objects.
+
 Requirements
 ====
 - Mac OS X 10.10+, iOS 8.0+
@@ -113,6 +127,10 @@ Jewzruxin, intended for internal, should be installed inside the application (Ma
   ![](https://github.com/weipin/jewzruxin/blob/master/Docs/images/setup_framework.gif)
   
 - Import the framework at the top of your code: `import JewzruxiniOS` for iOS or `import JewzruxinMac` for Mac OS X.
+
+Key-Value Observing
+====
+[TODO] See comments in KVOCenter.swift and the playground page "Key-Value Observing".
   
 HTTP
 ====

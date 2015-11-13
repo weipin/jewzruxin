@@ -101,6 +101,39 @@ class KVOCenterTests: XCTestCase {
         XCTAssertEqual(result2, "def")
     }
 
+    func testRemoveWithProxyShouldWork() {
+        var result1 = 0
+        var result2 = ""
+        var callbackContextObject1: AnyObject?
+        var callbackContextObject2: AnyObject?
+
+        let center = KeyValueObservingCenter.defaultCenter()
+        let callback1: KeyValueObserverProxy.KeyValueObserverProxyCallback = {
+            keyPath, observed, change, contextObject in
+            result1 = observed!.iVar
+            callbackContextObject1 = contextObject
+        }
+        let callback2: KeyValueObserverProxy.KeyValueObserverProxyCallback = {
+            keyPath, observed, change, contextObject in
+            result2 = observed!.anotheriVar
+            callbackContextObject2 = contextObject
+        }
+        let proxy1 = center.addObserverForKeyPath("iVar", object: self.objectToObserve, contextObject:self, callback: callback1)
+        center.addObserverForKeyPath("anotheriVar", object: self.objectToObserve, contextObject:self, callback: callback2)
+        self.objectToObserve.iVar = 456
+        self.objectToObserve.anotheriVar = "def"
+        XCTAssertEqual(result1, 456)
+        XCTAssertEqual(result2, "def")
+        XCTAssertTrue(callbackContextObject1 === self)
+        XCTAssertTrue(callbackContextObject2 === self)
+
+        center.removeObserverForProxy(proxy1)
+        self.objectToObserve.iVar = 789
+        self.objectToObserve.anotheriVar = "ghi"
+        XCTAssertEqual(result1, 456)
+        XCTAssertEqual(result2, "ghi")
+    }
+
     func testRemoveWithKeyPathShouldWork() {
         var result1 = 0
         var result2 = ""

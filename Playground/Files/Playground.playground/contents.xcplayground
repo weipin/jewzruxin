@@ -6,5 +6,6 @@
         <page name='HTTP Intermediate'/>
         <page name='HTTP Advanced'/>
         <page name='HTTP Utilties'/>
+        <page name='Key-Value Observing'/>
     </pages>
 </playground>
